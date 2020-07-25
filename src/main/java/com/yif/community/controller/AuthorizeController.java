@@ -14,7 +14,7 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
     @Value("${github.client.id}")
-    private String clientid;
+    private String clientId;
     @Value("${github.client.client_secret}")
     private String client_secret;
     @Value("${github.client.Redirect_uri}")
@@ -24,14 +24,17 @@ public class AuthorizeController {
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state") String state){
         AccessTokenDTO accessTokenDTO=new AccessTokenDTO();
-        accessTokenDTO.setClient_id(clientid);
+        accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setCode(code);
         accessTokenDTO.setClient_secret(client_secret);
         accessTokenDTO.setRedirect_uri(Redirect_uri);
         accessTokenDTO.setState(state);
+        System.out.println(accessTokenDTO.getClient_id());
         String accessToken= githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
         System.out.println(user.getName());
+        System.out.println(user.getId());
+        System.out.println(user.getBio());
         return "index";
 
     }
