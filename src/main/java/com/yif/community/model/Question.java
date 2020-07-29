@@ -4,6 +4,16 @@ public class Question {
     private Integer id;
     private String title;
     private String description;
+    private String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     private Long gmtCreate;
     private Long gmtModified;
     private Integer creator;
