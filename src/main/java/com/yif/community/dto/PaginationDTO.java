@@ -29,10 +29,10 @@ public class PaginationDTO {
         this.page=page;
         pages.add(page);
         for (int i=1;i<=3;i++){
-            if(page-1>0){
+            if(page-i>0){
                pages.add(0,page-i);
             }
-            if(page+1<=totalPage){
+            if(page+i<=totalPage){
                 pages.add(page+i);
             }
         }
