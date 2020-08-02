@@ -20,4 +20,6 @@ public interface QuestionMapper {
     List<Question> list(@Param(value = "offset") Integer offset,@Param(value = "size") Integer size);
     @Select("select count(1) from question")
     Integer count();
+    @Select("select * from question where id = #{id}")
+    Question getById(@Param("id") Integer id);
 }
