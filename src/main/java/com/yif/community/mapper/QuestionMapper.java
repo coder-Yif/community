@@ -1,10 +1,8 @@
 package com.yif.community.mapper;
 
 import com.yif.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.yif.community.model.User;
+import org.apache.ibatis.annotations.*;
 import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,4 +20,8 @@ public interface QuestionMapper {
     Integer count();
     @Select("select * from question where id = #{id}")
     Question getById(@Param("id") Integer id);
+    @Update("update question set title=#{title},description=#{description},gmt_modified=#{gmtModified},tag=#{tag} where id=#{id}")
+    void update(Question question);
+    @Update("update question set view_count=view_count+#{viewCount} where id=#{id}")
+    void incView(Question question);
 }

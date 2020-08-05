@@ -1,6 +1,9 @@
 package com.yif.community.service;
 
 import com.yif.community.dto.QuestionDTO;
+import com.yif.community.exception.CustomizeErrorCode;
+import com.yif.community.exception.CustomizeException;
+import com.yif.community.mapper.QuestionExtMapper;
 import com.yif.community.mapper.QuestionMapper;
 import com.yif.community.mapper.UserMapper;
 import com.yif.community.model.Question;
@@ -18,6 +21,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
     public PaginationDTO list(Integer page,Integer size){
 
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -45,10 +50,29 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question=questionMapper.getById(id);
+        if (question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO=new QuestionDTO();
         User user=userMapper.findById(question.getCreator());
         questionDTO.setUser(user);
         BeanUtils.copyProperties(question,questionDTO);
         return questionDTO;
+    }
+    public void createOrUpdate(Question question){
+        if(question.getId()==null){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else{
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+    }
+    public void incView(Integer id){
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionMapper.incView(question);
     }
 }
