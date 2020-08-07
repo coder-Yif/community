@@ -75,4 +75,10 @@ public class QuestionService {
         question.setViewCount(1);
         questionMapper.incView(question);
     }
+    public void incCommentCount(Integer id){
+        Question question = new Question();
+        question.setId(id);
+        question.setCommentCount(1);
+        questionMapper.incCommentCount(question);
+    }
 }

@@ -1,5 +1,6 @@
 package com.yif.community.mapper;
 
+import com.yif.community.model.Comment;
 import com.yif.community.model.Question;
 import com.yif.community.model.User;
 import org.apache.ibatis.annotations.*;
@@ -24,4 +25,8 @@ public interface QuestionMapper {
     void update(Question question);
     @Update("update question set view_count=view_count+#{viewCount} where id=#{id}")
     void incView(Question question);
+    @Select("select * from question where id=#{parentId}")
+    Question selectByPrimaryKey(long parentId);
+    @Update("update question set comment_count=comment_count+#{commentCount} where id=#{id}")
+    void incCommentCount(Question question);
 }
